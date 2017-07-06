@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+
+development:
+  <<: *default
+  database: blog_api_development
+
+test:
+  <<: *default
+  database: blog_api_test
+
+production:
+  <<: *default
+  database: blog_api_production
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DELETE_DATABASE_PASSWORD'] %>
