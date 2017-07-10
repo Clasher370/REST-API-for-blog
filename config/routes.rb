@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  post 'users', to: 'users#create'
+
   namespace :api do
     namespace :v1 do
-      get 'posts', to: 'posts#index'
-      
+      resources :posts, only: [:index, :show, :create]
     end
   end
 
