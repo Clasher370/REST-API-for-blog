@@ -1,12 +1,11 @@
 class UsersController < ApplicationController
-  def create
-    @user = User.new(user_params)
+  skip_before_action :authorize_request, only: :create
 
-    if @user.save
-      render json: @user, status: :created
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
+  def create
+    user = User.create!(user_params)
+    auth_token = AuthenticateUser.new(user.email, user.password).call
+    response = { message: Message.account_created, auth_token: auth_token }
+    json_response(response, :created)
   end
 
   private
