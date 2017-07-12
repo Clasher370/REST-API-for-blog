@@ -1,6 +1,6 @@
 class Api::V1::PostsController < ApplicationController
   def index
-    @posts = Post.all
+    @posts = @current_user.posts
     render json: @posts
   end
 
@@ -10,18 +10,13 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
-
-    if @post.save
-      render json: @post, status: :created
-    else
-      render json: @post.errors, status: :unprocessable_entity
-    end
+    @todo = current_user.posts.create!(post_params)
+    json_response(@todo, :created)
   end
 
   private
 
   def post_params
-    params.permit(:title, :body, :published_at, :author_id)
+    params.permit(:title, :body, :published_at)
   end
 end
