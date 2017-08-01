@@ -47,7 +47,7 @@ RSpec.describe 'API::V1::Posts', type: :request do
   end
 
   describe 'POST /api/v1/posts' do
-    let(:valid_attributes) { { title: 'test title', body: 'test', author_id: user.id } }
+    let(:valid_attributes) { { title: 'test title', body: 'test', author_id: user.id }.to_json }
 
     context 'when the request is valid' do
       before { post '/api/v1/posts', params: valid_attributes, headers: headers }
@@ -62,7 +62,7 @@ RSpec.describe 'API::V1::Posts', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/api/v1/posts', params: { title: 'Foobar' }, headers: headers }
+      before { post '/api/v1/posts', params: { title: 'Foobar' }.to_json, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
